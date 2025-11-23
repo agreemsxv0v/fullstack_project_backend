@@ -1,41 +1,40 @@
 from flask import Flask
 from flask_cors import CORS
-from routes.greet_routes import greet_bp
-from routes.r2_routes import r2_bp
-from dotenv import load_dotenv
 import os
 
-# Load environment variables
-load_dotenv()
+# ✅ Only import r2_routes
+from routes.r2_routes import r2_bp
 
-# Create the app FIRST (before registering blueprints)
+# Load dotenv for local development
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except:
+    pass
+
 app = Flask(__name__)
 
-# ✅ UPDATED CORS: Allow all origins for mobile compatibility
+# CORS configuration
 CORS(app, 
      resources={
          r"/api/*": {
-             "origins": "*",  # Allow all origins (mobile devices, different IPs, etc.)
+             "origins": "*",
              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-             "allow_headers": ["Content-Type", "Authorization"],
-             "supports_credentials": False
+             "allow_headers": ["Content-Type", "Authorization"]
          }
      }
 )
 
-# Register routes
-app.register_blueprint(greet_bp, url_prefix="/api")
+# ✅ Only register r2 blueprint
 app.register_blueprint(r2_bp, url_prefix="/api/r2")
 
+# Root route
 @app.route('/')
+@app.route('/api')
 def home():
     return "Backend is running successfully 🎉"
 
-if __name__ == '__main__':
-    # ✅ CRITICAL: Use host='0.0.0.0' to accept connections from ANY device on network
-    # This allows mobile phones and other devices to connect
-    app.run(
-        debug=True, 
-        host='0.0.0.0',  # Listen on all network interfaces (not just localhost)
-        port=int(os.getenv("PORT", 5000))
-    )
+# Health check
+@app.route('/health')
+def health():
+    return {"status": "healthy", "message": "Backend is operational"}
