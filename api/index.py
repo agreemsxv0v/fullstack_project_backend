@@ -1,13 +1,16 @@
 from flask import Flask
 from flask_cors import CORS
-import sys
 import os
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from routes.greet_routes import greet_bp
+# ✅ Simple import - routes is now in the same api folder
 from routes.r2_routes import r2_bp
+
+# Load dotenv for local development
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except:
+    pass
 
 app = Flask(__name__)
 
@@ -22,8 +25,7 @@ CORS(app,
      }
 )
 
-# Register blueprints
-app.register_blueprint(greet_bp, url_prefix="/api")
+# ✅ Only register r2 blueprint
 app.register_blueprint(r2_bp, url_prefix="/api/r2")
 
 # Root route
