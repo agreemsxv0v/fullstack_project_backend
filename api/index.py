@@ -135,3 +135,7 @@ def serve_song(filename):
     except Exception as e:
         print(f"❌ Error serving {filename}: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

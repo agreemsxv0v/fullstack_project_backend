@@ -3,7 +3,9 @@ from flask_cors import CORS
 import os
 
 # ✅ Only import r2_routes
-from routes.r2_routes import r2_bp
+# from routes.r2_routes import r2_bp
+from api.routes.r2_routes import r2_bp
+
 
 # Load dotenv for local development
 try:
