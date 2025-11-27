@@ -1,37 +1,3 @@
-# import boto3
-# from flask import Blueprint, jsonify
-# import os
-
-# r2_bp = Blueprint("r2_bp", __name__)
-
-# # R2 client using your actual .env variable names
-# s3 = boto3.client(
-#     "s3",
-#     endpoint_url=os.getenv("R2_ENDPOINT"),
-#     aws_access_key_id=os.getenv("R2_ACCESS_KEY"),
-#     aws_secret_access_key=os.getenv("R2_SECRET_KEY"),
-# )
-
-# BUCKET = os.getenv("R2_BUCKET")
-
-
-# @r2_bp.route("/songs", methods=["GET"])
-# def list_songs():
-#     try:
-#         response = s3.list_objects_v2(Bucket=BUCKET)
-
-#         if "Contents" not in response:
-#             return jsonify({"songs": []})
-
-#         files = [item["Key"] for item in response["Contents"]]
-
-#         return jsonify({"songs": files})
-
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-
 import boto3
 from flask import Blueprint, jsonify, redirect
 import os
